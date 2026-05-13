@@ -18,8 +18,8 @@ if(!admin.apps.length){
          process.env.FB_CLIENT_EMAIL,
 
          privateKey:
-         process.env.FB_PRIVATE_KEY
-         .replace(/\\n/g,"\n")
+         (process.env.FB_PRIVATE_KEY || "")
+         .replace(/\\n/g, "\n")
 
       }),
 
