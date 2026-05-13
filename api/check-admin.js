@@ -1,22 +1,44 @@
-export default async function handler(req, res) {
+export default async (req) => {
+
   try {
 
     const ADMIN_IDS = String(process.env.ADMIN_IDS || "")
       .split(",")
       .map(id => Number(id.trim()));
 
-    const userId = Number(req.query?.userId);
+    const url = new URL(req.url);
 
-    return res.status(200).json({
-      isAdmin: ADMIN_IDS.includes(userId)
-    });
+    const userId = Number(
+      url.searchParams.get("userId")
+    );
+
+    return new Response(
+      JSON.stringify({
+        isAdmin: ADMIN_IDS.includes(userId)
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
   } catch (err) {
 
-    return res.status(500).json({
-      success: false,
-      error: String(err)
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: String(err)
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
   }
+
 }
