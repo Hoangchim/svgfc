@@ -1,27 +1,22 @@
-export default async function handler(req,res){
+export default async function handler(req, res) {
+  try {
 
-  try{
-    
-   const ADMIN_IDS =
-   process.env.ADMIN_IDS
-   .split(",")
-   .map(Number);
+    const ADMIN_IDS = String(process.env.ADMIN_IDS || "")
+      .split(",")
+      .map(id => Number(id.trim()));
 
-   const userId =
-   Number(req.query.userId);
+    const userId = Number(req.query?.userId);
 
-   res.json({
-      isAdmin:
-      ADMIN_IDS.includes(userId)
-   });
+    return res.status(200).json({
+      isAdmin: ADMIN_IDS.includes(userId)
+    });
 
+  } catch (err) {
 
-   }catch(err){
+    return res.status(500).json({
+      success: false,
+      error: String(err)
+    });
 
-      res.status(500).json({
-         success:false
-      });
-
-   }
-
+  }
 }
