@@ -171,8 +171,8 @@ async function checkAdmin(){
 
       const res =
       await fetch(
-         `../api/check-admin?userId=${user.id}`
-      );
+  `/.netlify/functions/check-admin?userId=${user.id}`
+);
 
       const data =
       await res.json();
